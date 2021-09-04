@@ -5,13 +5,13 @@ import (
 	"github.com/USACE/go-consequences/paireddata"
 )
 
-type UnregulatedFlowFrequehcyCurve struct {
+type UnregulatedFlowFrequencyCurve struct {
 	Distribution            statistics.ContinuousDistribution
 	EquivalantYearsOfRecord int
 	Ordinates               int
 }
 
-func (uffc UnregulatedFlowFrequehcyCurve) Sample(randomValue float64) paireddata.ValueSampler {
+func (uffc UnregulatedFlowFrequencyCurve) Sample(randomValue float64) paireddata.ValueSampler {
 	flows := make([]float64, uffc.Ordinates)
 	probs := make([]float64, uffc.Ordinates)
 	//TODO: use random value to seed a bootstrap on the distribution to create a bootstrap
