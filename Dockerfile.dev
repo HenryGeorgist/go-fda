@@ -9,6 +9,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone &
     mkdir /go &&\
     mkdir -p /src/go &&\
     apt update &&\
+    apt -y install gdal-bin gdal-data libgdal-dev &&\
     apt -y install wget &&\
     wget https://golang.org/dl/go1.15.2.linux-amd64.tar.gz -P / &&\
     tar -xvzf /go1.15.2.linux-amd64.tar.gz -C / &&\

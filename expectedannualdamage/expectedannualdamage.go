@@ -38,7 +38,7 @@ func (ead Simulation) Compute() float64 {
 	//compose frequency stage with stage damage
 	fdpd := fspd.Compose(dcpd)
 	//integrate frequency damage
-	result := _gc.ComputeSpecialEAD(ffpd.Xvals, ffpd.Yvals)
+	result := _gc.ComputeSpecialEAD(fdpd.Xvals, fdpd.Yvals)
 	fmt.Println(fdpd)
 	return result
 }
