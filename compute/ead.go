@@ -32,13 +32,11 @@ func (ead ExpectedAnnualDamage) Compute() float64 {
 		panic("stage damage curve is not paired data.")
 	}
 	fmt.Println(dcpd)
-	//compose flow frequeny with flow stage
-	for idx, flow := range rcpd.YVals {
-		prob := ffpd.SampleValue(flow)
-		stage := rcpd.XVals[idx]
-		fmt.Println(prob)
-		fmt.Println(stage)
-	}
-
+	//compose frequency flow with flow stage
+	fspd := ffpd.Compose(rcpd)
+	//compose frequency stage with stage damage
+	fdpd := fspd.Compose(dcpd)
+	//integrate frequency damage
+	fmt.Println(fdpd)
 	return .5
 }
