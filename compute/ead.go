@@ -6,6 +6,7 @@ import (
 	"github.com/HenryGeorgist/go-fda/flowfrequencycurves"
 	"github.com/HenryGeorgist/go-fda/ratingcurves"
 	"github.com/HenryGeorgist/go-fda/stagedamagecurves"
+	_gcc "github.com/USACE/go-consequences/compute"
 	"github.com/USACE/go-consequences/paireddata"
 )
 
@@ -37,6 +38,7 @@ func (ead ExpectedAnnualDamage) Compute() float64 {
 	//compose frequency stage with stage damage
 	fdpd := fspd.Compose(dcpd)
 	//integrate frequency damage
+	result := _gcc.ComputeSpecialEAD(ffpd.Xvals, ffpd.Yvals)
 	fmt.Println(fdpd)
-	return .5
+	return result
 }
