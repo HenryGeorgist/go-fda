@@ -4,6 +4,8 @@ github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym
 github.com/HydrologicEngineeringCenter/go-statistics v0.0.0-20210804223753-3b0b0cd9013d/go.mod h1:emMoyYiFKgCy3DPFt4uKUdHZ9FwC8k1YArGNifarbmg=
 github.com/HydrologicEngineeringCenter/go-statistics v0.0.0-20210904151206-04811e288d78 h1:0PLzX92VxBvMH/fVkP3G2iYnUA3uRJsxhl9Ae/TpckE=
 github.com/HydrologicEngineeringCenter/go-statistics v0.0.0-20210904151206-04811e288d78/go.mod h1:ABek1cDzTXjGA4uwrB91/NriEROj8AnUDaX7xU+1L2E=
+github.com/HydrologicEngineeringCenter/go-statistics v0.0.0-20210905131018-71a73e6d994a h1:uFuxoon9PXRcDxxkS4fBrXielHtvIwXDmRVMY3ERI3g=
+github.com/HydrologicEngineeringCenter/go-statistics v0.0.0-20210905131018-71a73e6d994a/go.mod h1:ABek1cDzTXjGA4uwrB91/NriEROj8AnUDaX7xU+1L2E=
 github.com/USACE/go-consequences v0.0.0-20210904184043-84d522c74a84 h1:X78TLHtUR6EodsewqMkgxLWYEnYsMVhLQ3hfKgtbxos=
 github.com/USACE/go-consequences v0.0.0-20210904184043-84d522c74a84/go.mod h1:5O5umxzDZilMxM20m8eY0EN9AN7JHaX/U5rXt+G+f8Y=
 github.com/ajstarks/svgo v0.0.0-20180226025133-644b8db467af/go.mod h1:K08gAheRH3/J6wwsYMMT4xOr94bZjxIelGM0+d/wbFw=

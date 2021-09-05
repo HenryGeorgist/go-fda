@@ -15,7 +15,7 @@ type Simulation struct {
 }
 
 func (ead Simulation) Compute() float64 {
-	ff := ead.FlowFrequency.Sample(.5)
+	ff := ead.FlowFrequency.DeterministicSample()
 	ffpd, ffok := ff.(paireddata.PairedData)
 	if !ffok {
 		panic("frequency curve is not paired data.")
