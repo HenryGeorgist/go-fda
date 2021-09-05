@@ -1,8 +1,6 @@
 package expectedannualdamage
 
 import (
-	"fmt"
-
 	"github.com/HenryGeorgist/go-fda/flowfrequencycurves"
 	"github.com/HenryGeorgist/go-fda/ratingcurves"
 	"github.com/HenryGeorgist/go-fda/stagedamagecurves"
@@ -32,13 +30,11 @@ func (ead Simulation) Compute() float64 {
 	if !dcok {
 		panic("stage damage curve is not paired data.")
 	}
-	fmt.Println(dcpd)
 	//compose frequency flow with flow stage
 	fspd := ffpd.Compose(rcpd)
 	//compose frequency stage with stage damage
 	fdpd := fspd.Compose(dcpd)
 	//integrate frequency damage
 	result := _gc.ComputeSpecialEAD(fdpd.Xvals, fdpd.Yvals)
-	fmt.Println(fdpd)
 	return result
 }
