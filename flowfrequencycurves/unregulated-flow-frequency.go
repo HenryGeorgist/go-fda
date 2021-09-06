@@ -30,7 +30,7 @@ func (uffc UnregulatedFlowFrequencyCurve) DeterministicSample() paireddata.Value
 		probs[i] = float64(float64(i)+0.5) / float64(uffc.Ordinates)
 		flows[i] = uffc.Distribution.InvCDF(probs[i])
 	}
-	return paireddata.PairedData{Xvals: flows, Yvals: probs}
+	return paireddata.PairedData{Xvals: probs, Yvals: flows}
 }
 func bootstrap(uffc UnregulatedFlowFrequencyCurve, randomValue float64) statistics.LogPearsonIIIDistribution {
 	rngsrc := rand.NewSource(int64(randomValue))

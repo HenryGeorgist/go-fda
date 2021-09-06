@@ -31,9 +31,9 @@ func (ead Simulation) Compute() float64 {
 		panic("stage damage curve is not paired data.")
 	}
 	//compose frequency flow with flow stage
-	fspd := ffpd.Compose(rcpd)
+	fspd := rcpd.Compose(ffpd)
 	//compose frequency stage with stage damage
-	fdpd := fspd.Compose(dcpd)
+	fdpd := dcpd.Compose(fspd)
 	//integrate frequency damage
 	result := _gc.ComputeSpecialEAD(fdpd.Xvals, fdpd.Yvals)
 	return result
