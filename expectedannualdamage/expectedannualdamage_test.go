@@ -38,7 +38,10 @@ func Test_EAD(t *testing.T) {
 	}
 	dc := stagedamagecurves.StageDamageCurve{Curve: paireddata.UncertaintyPairedData{Xvals: stages, Yvals: damageDists}}
 
-	sim := Simulation{FlowFrequency: ff, RatingCurve: rc, DamageCurve: dc}
-	ead := sim.Compute()
+	sim := Simulation{FlowFrequency: &ff, RatingCurve: &rc, DamageCurve: &dc}
+	ead, err := sim.Compute()
+	if err != nil {
+		fmt.Println(err)
+	}
 	fmt.Println(ead)
 }
