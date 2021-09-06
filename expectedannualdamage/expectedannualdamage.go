@@ -4,6 +4,7 @@ import (
 	"errors"
 
 	"github.com/HenryGeorgist/go-fda/flowfrequencycurves"
+	"github.com/HenryGeorgist/go-fda/flowtransformfunction"
 	"github.com/HenryGeorgist/go-fda/ratingcurves"
 	"github.com/HenryGeorgist/go-fda/stagedamagecurves"
 	_gc "github.com/USACE/go-consequences/compute"
@@ -12,6 +13,7 @@ import (
 
 type Simulation struct {
 	FlowFrequency *flowfrequencycurves.UnregulatedFlowFrequencyCurve
+	FlowTransform *flowtransformfunction.FlowTransformFunctionCurve
 	RatingCurve   *ratingcurves.RatingCurve
 	DamageCurve   *stagedamagecurves.StageDamageCurve
 }
@@ -19,6 +21,10 @@ type Simulation struct {
 func (ead Simulation) Compute() (float64, error) {
 	if ead.FlowFrequency == nil {
 		return 0.0, errors.New("unregulated flow frequeny curve is not defined")
+	}
+	hasFlowTransform := false
+	if ead.FlowTransform != nil {
+		hasFlowTransform = true
 	}
 	if ead.RatingCurve == nil {
 		return 0.0, errors.New("rating curve is not defined")
@@ -40,6 +46,14 @@ func (ead Simulation) Compute() (float64, error) {
 	dcpd, dcok := dc.(paireddata.PairedData)
 	if !dcok {
 		return 0.0, errors.New("stage damage curve is not paired data")
+	}
+	if hasFlowTransform {
+		ft := ead.FlowTransform.Sample(.5)
+		ftpd, ftok := ft.(paireddata.PairedData)
+		if !ftok {
+			return 0.0, errors.New("flow transform is not paired data")
+		}
+		ffpd = ftpd.Compose(ffpd)
 	}
 	//compose frequency flow with flow stage
 	fspd := rcpd.Compose(ffpd)
