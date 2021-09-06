@@ -5,6 +5,7 @@ import (
 
 	"github.com/HenryGeorgist/go-fda/flowfrequencycurves"
 	"github.com/HenryGeorgist/go-fda/flowtransformfunction"
+	"github.com/HenryGeorgist/go-fda/leveefragilitycurve"
 	"github.com/HenryGeorgist/go-fda/ratingcurves"
 	"github.com/HenryGeorgist/go-fda/stagedamagecurves"
 	_gc "github.com/USACE/go-consequences/compute"
@@ -12,10 +13,11 @@ import (
 )
 
 type Simulation struct {
-	FlowFrequency *flowfrequencycurves.UnregulatedFlowFrequencyCurve
-	FlowTransform *flowtransformfunction.FlowTransformFunctionCurve
-	RatingCurve   *ratingcurves.RatingCurve
-	DamageCurve   *stagedamagecurves.StageDamageCurve
+	FlowFrequency       *flowfrequencycurves.UnregulatedFlowFrequencyCurve
+	FlowTransform       *flowtransformfunction.FlowTransformFunctionCurve
+	RatingCurve         *ratingcurves.RatingCurve
+	LeveeFragilityCurve *leveefragilitycurve.LeveeFragilityCurve
+	DamageCurve         *stagedamagecurves.StageDamageCurve
 }
 
 func (ead Simulation) Compute() (float64, error) {
@@ -28,6 +30,10 @@ func (ead Simulation) Compute() (float64, error) {
 	}
 	if ead.RatingCurve == nil {
 		return 0.0, errors.New("rating curve is not defined")
+	}
+	hasFragilityCurve := false
+	if ead.LeveeFragilityCurve != nil {
+		hasFragilityCurve = true
 	}
 	if ead.DamageCurve == nil {
 		return 0.0, errors.New("damage curve is not defined")
@@ -42,6 +48,7 @@ func (ead Simulation) Compute() (float64, error) {
 	if !rcok {
 		return 0.0, errors.New("rating curve is not paired data")
 	}
+
 	dc := ead.DamageCurve.Sample(.5)
 	dcpd, dcok := dc.(paireddata.PairedData)
 	if !dcok {
@@ -57,6 +64,15 @@ func (ead Simulation) Compute() (float64, error) {
 	}
 	//compose frequency flow with flow stage
 	fspd := rcpd.Compose(ffpd)
+	//if a levee exists, modify stage damage curve
+	if hasFragilityCurve {
+		lfc := ead.LeveeFragilityCurve.Sample(.5)
+		lfcpd, lfcok := lfc.(paireddata.PairedData)
+		if !lfcok {
+			return 0.0, errors.New("levee fragility curve is not paired data")
+		}
+		dcpd = leveefragilitycurve.Multiply(dcpd, lfcpd) //this is not quite right. need something other than compose. (multiply?)
+	}
 	//compose frequency stage with stage damage
 	fdpd := dcpd.Compose(fspd)
 	//integrate frequency damage
