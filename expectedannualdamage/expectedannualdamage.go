@@ -54,6 +54,7 @@ func (ead Simulation) Compute() (float64, error) {
 	if !rcok {
 		return 0.0, errors.New("rating curve is not paired data")
 	}
+
 	dc := ead.DamageCurve.Sample(.5)
 	dcpd, dcok := dc.(paireddata.PairedData)
 	if !dcok {
